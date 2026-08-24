@@ -1,0 +1,16 @@
+---
+title: "# ISA 401: Business Intelligence & Data Visualization"
+author: "Greyson Nicholl"
+date: "2026-08-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+Data Acquisition & Transformation
+Data Visualization & Communication 
+Exploratory Data Mining
+
