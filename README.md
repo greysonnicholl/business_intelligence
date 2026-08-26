@@ -1,2 +1,10 @@
-# business_intelligence
+# business\_intelligence
+
+\## Skills
+
+\-Git
+
+\-R
+
+
 
