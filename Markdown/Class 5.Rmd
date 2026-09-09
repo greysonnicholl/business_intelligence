@@ -1,0 +1,77 @@
+---
+title: "Class 5"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    numbered_sections: true
+    code_download: true
+    code_folding: show
+    theme: simplex
+date: "2026-09-09"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Game 01: Subsetting Lists
+```{r game01}
+campus = jsonlite::fromJSON(
+  "https://isa401-find-your-seat.vercel.app/campus.json")
+```
+
+```{r}
+names(campus)
+```
+```{r}
+fsb = campus$Farmer
+fsb$code
+```
+```{r}
+fsbfloors = fsb$floors
+fsbfloors[["2"]]$sections
+fsbfloors$`2`$rooms
+sec_floor = fsb[[8]]$floor
+sec_floor_rooms = sec_floor[["3"]]
+sec_floor_rooms[6, 2]
+```
+
+
+```{r occupations}
+occupation = readxl::read_excel(
+  path = "M:/business_intelligence/Data/occupation.xlsx",
+  sheet = 5, #sheet = table 1.4 in excel file
+  skip = 1
+)
+# When you subset R drops these things given they're multiple
+occupation = occupation[-c(32,33,34), ]
+occupation = occupation[1:31, ]
+
+```
+## Read JSON Data
+```{r}
+json_url ="https://data.cincinnati-oh.gov/resource/rvmt-pkmq.json?$limit=100"
+crashes_json = jsonlite::fromJSON(json_url)
+dplyr::glimpse(crashes_json)
+```
+
+```{r}
+logins = readr::read_csv("https://isa401-import-heist.vercel.app/api/stage1?seat=R2-6&s=B")
+names(logins)
+logins$failed_attempts
+logins
+```
+```{r}
+log = jsonlite::fromJSON("https://isa401-import-heist.vercel.app/api/stage2?key=smithj31&seat=R2-6&s=B")
+log$events
+```
+```{r}
+jsonlite::fromJSON("https://isa401-import-heist.vercel.app/api/finish?code=6&seat=R2-6&s=B")
+```
+
+
+
+
+
+
