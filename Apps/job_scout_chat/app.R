@@ -1,3 +1,7 @@
+# install.packages("querychat", dependencies = T)
+
+library(querychat)
+
 con = DBI::dbConnect(RSQLite::SQLite(), "data/scout.db")
 
 client = ellmer::chat_openai(
@@ -13,4 +17,7 @@ qc = querychat::querychat(
               ChatISA Job Scout collected."
 )
 
-qc$app()
+qc$app_obj()
+
+
+
