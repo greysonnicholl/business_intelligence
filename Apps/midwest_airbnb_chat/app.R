@@ -2,7 +2,7 @@
 
 library(querychat)
 
-con = DBI::dbConnect(RSQLite::SQLite(), "data/scout.db")
+con = DBI::dbConnect(RSQLite::SQLite(), "data/midwest_airbnb.db")
 
 client = ellmer::chat_openai(
   model  = "gpt-5.6-luna",
@@ -10,11 +10,10 @@ client = ellmer::chat_openai(
 )
 
 qc = querychat::querychat(
-  con, "scout_postings",
+  con, "listings",
   client   = client,
   tools    = c("filter", "query", "visualize"),
-  greeting = "Ask me about the 1,891 job postings
-              ChatISA Job Scout collected."
+  greeting = "Ask me about the Midwest Airbnb listings ChatISA collected."
 )
 
 qc$app_obj()
