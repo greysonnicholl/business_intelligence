@@ -1,0 +1,44 @@
+---
+title: "Assignment 7"
+output:   
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_download: true
+    code_folding: show
+date: "2026-10-07"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(rvest)
+library(dplyr)
+
+departments = c("Accountancy", "Economics", "Entrepreneurship", "Finance", "ISA", "Marketing", "Management")
+
+urls <- c("https://miamioh.edu/fsb/directory/?up=/query/all/all/Accountancy/all", "https://miamioh.edu/fsb/directory/?up=/query/all/all/Economics/all", "https://miamioh.edu/fsb/directory/?up=/query/all/all/Entrepreneurship/all", "https://miamioh.edu/fsb/directory/?up=/query/all/all/Finance/all", "https://miamioh.edu/fsb/directory/?up=/query/all/all/Information%20Systems%20--%20Analytics/all", "https://miamioh.edu/fsb/directory/?up=/query/all/all/Marketing/all", "https://miamioh.edu/fsb/directory/?up=/query/all/all/Management/all")
+
+pages = vector("list", length(urls))
+for (i in seq_along(urls)) {
+  pg = rvest::read_html(urls[i])
+  pages[[i]] = data.frame(
+    department = departments[i],
+    name = pg |> rvest::html_elements('a[href*="/directory/"]') |> # spend 2 hours trying to figure out the selector and I could not for the life of me get anything that worked so I did look up how I could do it in a different way here
+      rvest::html_text2(),
+    title = pg |> rvest::html_elements("i:nth-child(3)") |>
+      rvest::html_text2(),
+    website =pg |> rvest::html_elements('a[href*="/directory/"]') |>
+      rvest::html_attr("href")
+  )
+  Sys.sleep(1)
+}
+departments_df = dplyr::bind_rows(pages)
+
+head(departments_df)
+```
+
+
