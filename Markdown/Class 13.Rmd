@@ -1,0 +1,44 @@
+---
+title: "Class 13"
+output: html_document
+date: "2026-10-07"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+## Plane Crash Example
+```{r}
+year = 2025
+
+crash_url = paste0('https://www.planecrashinfo.com/', year, '/', year, '.htm')
+
+crash_page <- rvest::read_html(crash_url, encoding = "ISO-8859-1")
+
+crash_page
+# what we learned last class us that if I were to read this as an HTML table, I have no control on what goes into each coumn in the resulting data frame -- this makes cleaning it (extracting text from it) challenging
+crash_page |>
+  rvest::html_elements("td:nth-child(1) > font > a") |>
+  rvest::html_text2() -> dates
+
+crash_page |>
+  rvest::html_elements("td:nth-child(2) > font") |>
+  rvest::html_text2() -> loc_op
+
+crash_page |>
+  rvest::html_elements("td:nth-child(4) > font") |>
+  rvest::html_text2() -> fatalities
+
+df = data.frame(dates = dates, loc = loc_op[-1], fatalities =fatalities[-1]) |>
+  tidyr::separate(
+    loc, into = c("location", "operator", sep = "\n")
+  ) |>
+  tidyr::separate(fatalities, into = c("plane_fatalities", "pass", "ground_fatalities"))
+
+dplyr::glimpse(df)
+```
+
